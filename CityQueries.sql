@@ -1,3 +1,5 @@
+Use City
+
 Declare @PostalCode nvarchar(50) = '12346'
 
 SELECT ne.[Type], ne.PostalCode, ne.Id, ne.[Name], bf.BlockNumber, count(bfs.Stair) as NumberOfStairs, Sum(bfs.NumberOfApartments) as NumberOfAppartments
@@ -7,7 +9,7 @@ from NeighborhoodEntities as ne
 	left outer join BlockOfFlatsStairs as bfs on bf.Id = bfs.BlockOfFlatsId
 --Where ne.PostalCode=@PostalCode
 Group By ne.[Type], ne.PostalCode, ne.Id, ne.[Name], bf.BlockNumber
-Order By ne.Id
+Order By ne.PostalCode, ne.Id
 
 SELECT ne.[Type], ne.PostalCode, ne.Id, ne.[Name], count(bf.Id) as NumberOfBlockOfFlats, count(h.Id) as NumberOfHouses
 from NeighborhoodEntities as ne 

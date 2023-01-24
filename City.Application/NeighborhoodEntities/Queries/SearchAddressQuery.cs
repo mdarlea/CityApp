@@ -47,16 +47,16 @@ namespace City.Application.NeighborhoodEntities.Queries
                                      Name = gr.Key.Name,
                                      PostalCode = gr.Key.PostalCode,
                                      NeighborhoodEntityType = gr.Key.NeighborhoodEntityType,
-                                     BlockOfFlats = gr.Select(g =>
+                                     BlockOfFlats = gr.Where(g => g.mbf != null).Select(g =>
                                          new BlockOfFlatsDto
                                          {
                                              BlockNumber = g.mbf.BlockNumber,
                                              NumberOfStairs = g.mbf.BlockOfFlatsStairs.Count(),
                                              NumberOfAppartments = g.mbf.BlockOfFlatsStairs.Sum(s => s.NumberOfApartments)
-                                         }).Where(v => v.BlockNumber != null).ToList(),
+                                         }).ToList(),
 
-                                     NumberOfBlockOfFlats = gr.Select(g => g.mbf).Where(v => v.BlockNumber != null).Count(),
-                                     NumberOfHouses = gr.Select(g => g.mh).Where(v => v.Name != null).Count(),
+                                     NumberOfBlockOfFlats = gr.Where(g => g.mbf != null).Select(g => g.mbf).Count(),
+                                     NumberOfHouses = gr.Where(g => g.mh != null).Select(g => g.mh).Count(),
                                  }).PaginatedListAsync(request.PageNumber, request.PageSize);
             }
             else 
@@ -75,16 +75,16 @@ namespace City.Application.NeighborhoodEntities.Queries
                                      Name = gr.Key.Name,
                                      PostalCode = gr.Key.PostalCode,
                                      NeighborhoodEntityType = gr.Key.NeighborhoodEntityType,
-                                     BlockOfFlats = gr.Select(g =>
+                                     BlockOfFlats = gr.Where(g => g.mbf != null).Select(g =>
                                          new BlockOfFlatsDto
                                          {
                                              BlockNumber = g.mbf.BlockNumber,
                                              NumberOfStairs = g.mbf.BlockOfFlatsStairs.Count(),
                                              NumberOfAppartments = g.mbf.BlockOfFlatsStairs.Sum(s => s.NumberOfApartments)
-                                         }).Where(v => v.BlockNumber != null).ToList(),
+                                         }).ToList(),
 
-                                     NumberOfBlockOfFlats = gr.Select(g => g.mbf).Where(v => v.BlockNumber != null).Count(),
-                                     NumberOfHouses = gr.Select(g => g.mh).Where(v => v.Name != null).Count(),
+                                     NumberOfBlockOfFlats = gr.Where(g => g.mbf != null).Select(g => g.mbf).Count(),
+                                     NumberOfHouses = gr.Where(g => g.mh != null).Select(g => g.mh).Count(),
                                  }).PaginatedListAsync(request.PageNumber, request.PageSize);
             }
             
