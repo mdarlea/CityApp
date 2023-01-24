@@ -1,0 +1,81 @@
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Name:</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="searchForm.invalid">You must enter a name or a postal code</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Postal Code:</mat-label>
+      <input matInput formControlName="postalCode">
+      <mat-error *ngIf="searchForm.invalid">You must enter a name or a postal code</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="mt-4">
+    <button mat-button color="primary" type="submit">Search</button>
+  </div>
+</form>
+
+<table *ngIf="dataSource.data && dataSource.data.length > 0" mat-table [dataSource]="dataSource" multiTemplateDataRows>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="postalCode">
+    <th mat-header-cell *matHeaderCellDef> Postal Code </th>
+    <td mat-cell *matCellDef="let element"> {{element.postalCode}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="neighborhoodEntityType">
+    <th mat-header-cell *matHeaderCellDef> Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.neighborhoodEntityType}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="numberOfHouses">
+    <th mat-header-cell *matHeaderCellDef> Houses </th>
+    <td mat-cell *matCellDef="let element"> {{element.numberOfHouses}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="numberOfBlockOfFlats">
+    <th mat-header-cell *matHeaderCellDef> Block Of Flats </th>
+    <td mat-cell *matCellDef="let element"> {{element.numberOfBlockOfFlats}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="addressColumns.length">
+
+      <div *ngIf="element.blockOfFlats?.length > 0">
+        <div class="d-flex flex-wrap">
+          <div *ngFor="let block of element.blockOfFlats" class="p-4">
+            <div>Block {{ block.blockNumber }}</div>
+            <div>Appartments: {{ block.numberOfAppartments }}</div>
+            <div>Stairs: {{ block.numberOfStairs }}</div>
+          </div>
+        </div>
+      </div>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef=" addressColumns;"></tr>
+  <tr mat-row *matRowDef="let element; columns:  addressColumns;"></tr>
+
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']"></tr>
+</table>
+
+
+<mat-paginator #paginator
+               class="demo-paginator"
+               (page)="handlePageEvent($event)"
+               [length]="length"
+               [pageSize]="pageSize"
+               [showFirstLastButtons]="true"
+               [pageSizeOptions]="pageSizeOptions"
+               [pageIndex]="pageIndex"
+               aria-label="Select page">
+</mat-paginator>
+
