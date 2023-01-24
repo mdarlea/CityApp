@@ -9,26 +9,26 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace City.Application.NeighborhoodEntities.Queries
+namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
 {
-	public record SearchAddressQuery : IRequest<PaginatedList<BlockOfFlatsAddressDto>>
-	{
-		public string? Name { get; set; }
-		public string? PostalCode { get; set; }
-		public int PageNumber { get; init; } = 1;
-		public int PageSize { get; init; } = 10;
-	}
+    public record SearchAddressQuery : IRequest<PaginatedList<BlockOfFlatsAddressDto>>
+    {
+        public string? Name { get; set; }
+        public string? PostalCode { get; set; }
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
+    }
 
-	public class SearchAddressQueryHandler : IRequestHandler<SearchAddressQuery, PaginatedList<BlockOfFlatsAddressDto>>
-	{
-		private readonly ICityContext context;
+    public class SearchAddressQueryHandler : IRequestHandler<SearchAddressQuery, PaginatedList<BlockOfFlatsAddressDto>>
+    {
+        private readonly ICityContext context;
 
-		public SearchAddressQueryHandler(ICityContext context) 
-		{
-			this.context = context;
-		}
-		public async Task<PaginatedList<BlockOfFlatsAddressDto>> Handle(SearchAddressQuery request, CancellationToken cancellationToken)
-		{
+        public SearchAddressQueryHandler(ICityContext context)
+        {
+            this.context = context;
+        }
+        public async Task<PaginatedList<BlockOfFlatsAddressDto>> Handle(SearchAddressQuery request, CancellationToken cancellationToken)
+        {
             PaginatedList<BlockOfFlatsAddressDto> results;
 
             if (string.IsNullOrEmpty(request.PostalCode))
@@ -59,7 +59,7 @@ namespace City.Application.NeighborhoodEntities.Queries
                                      NumberOfHouses = gr.Where(g => g.mh != null).Select(g => g.mh).Count(),
                                  }).PaginatedListAsync(request.PageNumber, request.PageSize);
             }
-            else 
+            else
             {
                 results = await (from ne in context.NeighborhoodEntities
                                  join b in context.Buildings on ne.Id equals b.NeighborhoodEntity!.Id
@@ -87,9 +87,9 @@ namespace City.Application.NeighborhoodEntities.Queries
                                      NumberOfHouses = gr.Where(g => g.mh != null).Select(g => g.mh).Count(),
                                  }).PaginatedListAsync(request.PageNumber, request.PageSize);
             }
-            
+
 
             return results;
-		}
-	}
+        }
+    }
 }

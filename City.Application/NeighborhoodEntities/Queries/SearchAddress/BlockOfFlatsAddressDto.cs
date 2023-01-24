@@ -1,6 +1,6 @@
 ﻿using City.Domain.Entities.NeighborhoodEntities;
 
-namespace City.Application.NeighborhoodEntities.Queries
+namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
 {
     public class BlockOfFlatsAddressDto
     {

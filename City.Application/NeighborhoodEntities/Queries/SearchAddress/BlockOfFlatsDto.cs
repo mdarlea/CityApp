@@ -1,4 +1,4 @@
-﻿namespace City.Application.NeighborhoodEntities.Queries
+﻿namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
 {
     public class BlockOfFlatsDto
     {

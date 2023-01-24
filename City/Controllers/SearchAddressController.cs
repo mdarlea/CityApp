@@ -1,11 +1,11 @@
 ﻿using City.Application.Common.Models;
-using City.Application.NeighborhoodEntities.Queries;
+using City.Application.NeighborhoodEntities.Queries.SearchAddress;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace City.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class SearchAddressController : ApiControllerBase
 	{
 		[HttpGet]
