@@ -17,6 +17,146 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 @Injectable({
     providedIn: 'root'
 })
+export class GetNeighborhoodsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getNeighborhoods(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfNeighborhoodDto> {
+        let url_ = this.baseUrl + "/api/GetNeighborhoods?";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNeighborhoods(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNeighborhoods(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PaginatedListOfNeighborhoodDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PaginatedListOfNeighborhoodDto>;
+        }));
+    }
+
+    protected processGetNeighborhoods(response: HttpResponseBase): Observable<PaginatedListOfNeighborhoodDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfNeighborhoodDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ListAddressesClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    listAddresses(pageNumber: number | undefined, pageSize: number | undefined): Observable<PaginatedListOfNeighborhoodEntityDto> {
+        let url_ = this.baseUrl + "/api/ListAddresses?";
+        if (pageNumber === null)
+            throw new Error("The parameter 'pageNumber' cannot be null.");
+        else if (pageNumber !== undefined)
+            url_ += "PageNumber=" + encodeURIComponent("" + pageNumber) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processListAddresses(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processListAddresses(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PaginatedListOfNeighborhoodEntityDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PaginatedListOfNeighborhoodEntityDto>;
+        }));
+    }
+
+    protected processListAddresses(response: HttpResponseBase): Observable<PaginatedListOfNeighborhoodEntityDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PaginatedListOfNeighborhoodEntityDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class SearchAddressClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -157,13 +297,216 @@ export class WeatherForecastClient {
     }
 }
 
+export class PaginatedListOfNeighborhoodDto implements IPaginatedListOfNeighborhoodDto {
+    items?: NeighborhoodDto[];
+    pageNumber?: number;
+    pageSize?: number;
+
+    constructor(data?: IPaginatedListOfNeighborhoodDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(NeighborhoodDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.pageSize = _data["pageSize"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfNeighborhoodDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfNeighborhoodDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["pageSize"] = this.pageSize;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfNeighborhoodDto {
+    items?: NeighborhoodDto[];
+    pageNumber?: number;
+    pageSize?: number;
+}
+
+export class NeighborhoodDto implements INeighborhoodDto {
+    neighborhood?: string | undefined;
+    type?: NeighborhoodEntityType;
+    numberOfAddressType?: number;
+
+    constructor(data?: INeighborhoodDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.neighborhood = _data["neighborhood"];
+            this.type = _data["type"];
+            this.numberOfAddressType = _data["numberOfAddressType"];
+        }
+    }
+
+    static fromJS(data: any): NeighborhoodDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NeighborhoodDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["neighborhood"] = this.neighborhood;
+        data["type"] = this.type;
+        data["numberOfAddressType"] = this.numberOfAddressType;
+        return data;
+    }
+}
+
+export interface INeighborhoodDto {
+    neighborhood?: string | undefined;
+    type?: NeighborhoodEntityType;
+    numberOfAddressType?: number;
+}
+
+export enum NeighborhoodEntityType {
+    Boulevard = 0,
+    Market = 1,
+    Street = 2,
+}
+
+export class PaginatedListOfNeighborhoodEntityDto implements IPaginatedListOfNeighborhoodEntityDto {
+    items?: NeighborhoodEntityDto[];
+    pageNumber?: number;
+    pageSize?: number;
+
+    constructor(data?: IPaginatedListOfNeighborhoodEntityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(NeighborhoodEntityDto.fromJS(item));
+            }
+            this.pageNumber = _data["pageNumber"];
+            this.pageSize = _data["pageSize"];
+        }
+    }
+
+    static fromJS(data: any): PaginatedListOfNeighborhoodEntityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PaginatedListOfNeighborhoodEntityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["pageNumber"] = this.pageNumber;
+        data["pageSize"] = this.pageSize;
+        return data;
+    }
+}
+
+export interface IPaginatedListOfNeighborhoodEntityDto {
+    items?: NeighborhoodEntityDto[];
+    pageNumber?: number;
+    pageSize?: number;
+}
+
+export class NeighborhoodEntityDto implements INeighborhoodEntityDto {
+    id?: number;
+    name?: string | undefined;
+    postalCode?: string | undefined;
+    neighborhood?: string | undefined;
+    neighborhoodEntityType?: NeighborhoodEntityType;
+
+    constructor(data?: INeighborhoodEntityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.postalCode = _data["postalCode"];
+            this.neighborhood = _data["neighborhood"];
+            this.neighborhoodEntityType = _data["neighborhoodEntityType"];
+        }
+    }
+
+    static fromJS(data: any): NeighborhoodEntityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new NeighborhoodEntityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["postalCode"] = this.postalCode;
+        data["neighborhood"] = this.neighborhood;
+        data["neighborhoodEntityType"] = this.neighborhoodEntityType;
+        return data;
+    }
+}
+
+export interface INeighborhoodEntityDto {
+    id?: number;
+    name?: string | undefined;
+    postalCode?: string | undefined;
+    neighborhood?: string | undefined;
+    neighborhoodEntityType?: NeighborhoodEntityType;
+}
+
 export class PaginatedListOfBlockOfFlatsAddressDto implements IPaginatedListOfBlockOfFlatsAddressDto {
     items?: BlockOfFlatsAddressDto[];
     pageNumber?: number;
-    totalPages?: number;
-    totalCount?: number;
-    hasPreviousPage?: boolean;
-    hasNextPage?: boolean;
+    pageSize?: number;
 
     constructor(data?: IPaginatedListOfBlockOfFlatsAddressDto) {
         if (data) {
@@ -182,10 +525,7 @@ export class PaginatedListOfBlockOfFlatsAddressDto implements IPaginatedListOfBl
                     this.items!.push(BlockOfFlatsAddressDto.fromJS(item));
             }
             this.pageNumber = _data["pageNumber"];
-            this.totalPages = _data["totalPages"];
-            this.totalCount = _data["totalCount"];
-            this.hasPreviousPage = _data["hasPreviousPage"];
-            this.hasNextPage = _data["hasNextPage"];
+            this.pageSize = _data["pageSize"];
         }
     }
 
@@ -204,10 +544,7 @@ export class PaginatedListOfBlockOfFlatsAddressDto implements IPaginatedListOfBl
                 data["items"].push(item.toJSON());
         }
         data["pageNumber"] = this.pageNumber;
-        data["totalPages"] = this.totalPages;
-        data["totalCount"] = this.totalCount;
-        data["hasPreviousPage"] = this.hasPreviousPage;
-        data["hasNextPage"] = this.hasNextPage;
+        data["pageSize"] = this.pageSize;
         return data;
     }
 }
@@ -215,10 +552,7 @@ export class PaginatedListOfBlockOfFlatsAddressDto implements IPaginatedListOfBl
 export interface IPaginatedListOfBlockOfFlatsAddressDto {
     items?: BlockOfFlatsAddressDto[];
     pageNumber?: number;
-    totalPages?: number;
-    totalCount?: number;
-    hasPreviousPage?: boolean;
-    hasNextPage?: boolean;
+    pageSize?: number;
 }
 
 export class BlockOfFlatsAddressDto implements IBlockOfFlatsAddressDto {
@@ -287,12 +621,6 @@ export interface IBlockOfFlatsAddressDto {
     blockOfFlats?: BlockOfFlatsDto[];
     numberOfBlockOfFlats?: number;
     numberOfHouses?: number;
-}
-
-export enum NeighborhoodEntityType {
-    Boulevard = 0,
-    Market = 1,
-    Street = 2,
 }
 
 export class BlockOfFlatsDto implements IBlockOfFlatsDto {

@@ -6,6 +6,96 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/GetNeighborhoods": {
+      "get": {
+        "tags": [
+          "GetNeighborhoods"
+        ],
+        "operationId": "GetNeighborhoods_GetNeighborhoods",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfNeighborhoodDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/ListAddresses": {
+      "get": {
+        "tags": [
+          "ListAddresses"
+        ],
+        "operationId": "ListAddresses_ListAddresses",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfNeighborhoodEntityDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/SearchAddress": {
       "get": {
         "tags": [
@@ -95,6 +185,102 @@
   },
   "components": {
     "schemas": {
+      "PaginatedListOfNeighborhoodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NeighborhoodDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NeighborhoodDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "neighborhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/NeighborhoodEntityType"
+          },
+          "numberOfAddressType": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NeighborhoodEntityType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Boulevard",
+          "Market",
+          "Street"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "PaginatedListOfNeighborhoodEntityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NeighborhoodEntityDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NeighborhoodEntityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "neighborhood": {
+            "type": "string",
+            "nullable": true
+          },
+          "neighborhoodEntityType": {
+            "$ref": "#/components/schemas/NeighborhoodEntityType"
+          }
+        }
+      },
       "PaginatedListOfBlockOfFlatsAddressDto": {
         "type": "object",
         "additionalProperties": false,
@@ -109,19 +295,9 @@
             "type": "integer",
             "format": "int32"
           },
-          "totalPages": {
+          "pageSize": {
             "type": "integer",
             "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hasPreviousPage": {
-            "type": "boolean"
-          },
-          "hasNextPage": {
-            "type": "boolean"
           }
         }
       },
@@ -159,20 +335,6 @@
             "format": "int32"
           }
         }
-      },
-      "NeighborhoodEntityType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Boulevard",
-          "Market",
-          "Street"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
       },
       "BlockOfFlatsDto": {
         "type": "object",

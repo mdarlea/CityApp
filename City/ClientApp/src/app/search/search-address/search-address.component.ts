@@ -39,19 +39,27 @@ export class SearchAddressComponent implements OnInit {
   }
 
   public handlePageEvent(e: PageEvent) {
-    this.length = e.length;
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
+    if (this.searchForm.valid) {
+      this.length = e.length;
+      this.pageSize = e.pageSize;
+      this.pageIndex = e.pageIndex;
+
+      this.search();
+    }
   }
 
   public onSubmit(): void {
     if (this.searchForm.valid) {
-      const value = this.searchForm.value;
-
-      this.client.searchAddress(value.name, value.postalCode, this.pageIndex + 1, this.pageSize).pipe(tap((results) => {
-        this.dataSource.data = results.items ?? [];
-      })).subscribe();
+      this.search();
     }
+  }
+
+  private search(): void {
+    const value = this.searchForm.value;
+
+    this.client.searchAddress(value.name, value.postalCode, this.pageIndex + 1, this.pageSize).pipe(tap((results) => {
+      this.dataSource.data = results.items ?? [];
+    })).subscribe();
   }
 
   private searchFormsValidator(g: AbstractControl): { [key: string]: any; } | null  {

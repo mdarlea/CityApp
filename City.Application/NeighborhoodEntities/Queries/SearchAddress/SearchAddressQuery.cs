@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using City.Application.Common.Interfaces;
+﻿using City.Application.Common.Interfaces;
 using City.Application.Common.Mappings;
 using City.Application.Common.Models;
 using City.Domain.Entities.Buildings;
 using City.Domain.Entities.NeighborhoodEntities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
 {
@@ -46,7 +43,7 @@ namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
                                      Id = gr.Key.Id,
                                      Name = gr.Key.Name,
                                      PostalCode = gr.Key.PostalCode,
-                                     NeighborhoodEntityType = gr.Key.NeighborhoodEntityType,
+                                     NeighborhoodEntityType = gr.Key.NeighborhoodEntityType.ToString(),
                                      BlockOfFlats = gr.Where(g => g.mbf != null).Select(g =>
                                          new BlockOfFlatsDto
                                          {
@@ -74,7 +71,7 @@ namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
                                      Id = gr.Key.Id,
                                      Name = gr.Key.Name,
                                      PostalCode = gr.Key.PostalCode,
-                                     NeighborhoodEntityType = gr.Key.NeighborhoodEntityType,
+                                     NeighborhoodEntityType = gr.Key.NeighborhoodEntityType.ToString(),
                                      BlockOfFlats = gr.Where(g => g.mbf != null).Select(g =>
                                          new BlockOfFlatsDto
                                          {

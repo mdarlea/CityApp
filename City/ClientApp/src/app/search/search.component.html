@@ -2,12 +2,17 @@
   <div class="position-sticky">
     <div class="list-group list-group-flush mx-3 mt-4">
       <a
-      [routerLink]="['/search']"
-      class="list-group-item list-group-item-action py-2 ripple"
-      aria-current="true"
-    >
-      <i class="bi bi-building fa-fw me-3"></i><span>Search Address</span>
-    </a>
+        [routerLink]="['/search']"
+        class="list-group-item list-group-item-action py-2 ripple"
+        aria-current="true">
+        <i class="bi bi-building fa-fw me-3"></i><span>Search Address</span>
+      </a>
+
+      <a
+        [routerLink]="['/search/neighboorhoods']"
+        class="list-group-item list-group-item-action py-2 ripple">
+        <i class="bi bi-building fa-fw me-3"></i><span>Neighborhoods</span>
+      </a>
     </div>
   </div>
 </nav>

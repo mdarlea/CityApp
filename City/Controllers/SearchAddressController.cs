@@ -13,5 +13,5 @@ namespace City.Controllers
 		{
 			return await Mediator.Send(query);
 		}
-	}
+    }
 }
