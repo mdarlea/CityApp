@@ -1,9 +1,7 @@
 ﻿using City.Application.Common.Interfaces;
 using City.Application.Common.Mappings;
 using City.Application.Common.Models;
-using City.Domain.Entities.NeighborhoodEntities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace City.Application.NeighborhoodEntities.Queries.Neighborhoods
 {
@@ -26,7 +24,7 @@ namespace City.Application.NeighborhoodEntities.Queries.Neighborhoods
         {
             var results = await (from n in context.Neighborhoods
                           join ne in context.NeighborhoodEntities on n.Id equals ne.Neighborhood!.Id
-                          group new { n, ne } by new { n.Name, NeighborhoodEntityType = EF.Property<NeighborhoodEntityType>(ne, "Type") } into gr
+                          group new { n, ne } by new { n.Name, NeighborhoodEntityType = ne.Type } into gr
                           select new NeighborhoodDto
                           {
                               Neighborhood = gr.Key.Name,

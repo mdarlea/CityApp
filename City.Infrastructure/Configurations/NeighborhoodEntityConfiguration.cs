@@ -7,7 +7,7 @@ namespace City.Infrastructure.Configurations
 {    
 	public class NeighborhoodEntityConfiguration : IEntityTypeConfiguration<NeighborhoodEntity>
 	{
-        private const string discriminator = "Type";
+        private const string discriminator = nameof(NeighborhoodEntity.Type);
 
         public void Configure(EntityTypeBuilder<NeighborhoodEntity> builder)
 		{
@@ -29,7 +29,6 @@ namespace City.Infrastructure.Configurations
 
             builder.Ignore(b => b.BlockOfFlats);
 			builder.Ignore(b => b.Houses);
-			builder.Ignore(b => b.NeighborhoodEntityType);
 
 			builder.Property(b => b.Name).HasMaxLength(200).IsRequired();
 			builder.Property(b => b.PostalCode).HasMaxLength(50).IsRequired();

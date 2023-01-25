@@ -5,17 +5,18 @@ import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
 import { SearchAddressModule } from './search-address/search-address.module';
 import { NeighborhoodsComponent } from './neighborhoods/neighborhoods.component';
+import { AddressesComponent } from './addresses/addresses.component';
 
 
 @NgModule({
   declarations: [
-    SearchComponent
-
+    SearchComponent,
   ],
   imports: [
     CommonModule,
     SearchAddressModule,
     NeighborhoodsComponent,
+    AddressesComponent,
     SearchRoutingModule
   ]
 })

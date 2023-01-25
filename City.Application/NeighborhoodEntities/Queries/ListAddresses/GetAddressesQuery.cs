@@ -31,7 +31,7 @@ namespace City.Application.NeighborhoodEntities.Queries.ListAddresses
                             .AsNoTracking()
                             .Include(ne => ne.Neighborhood)
                             .OrderBy(ne => ne.Neighborhood!.Name)
-                                    .ThenBy(ne => ne.NeighborhoodEntityType)
+                                    .ThenBy(ne => ne.Type)
                                         .ThenBy(ne => ne.PostalCode)
                                             .ThenBy(ne => ne.Name)
                             .ProjectTo<NeighborhoodEntityDto>(mapper.ConfigurationProvider)

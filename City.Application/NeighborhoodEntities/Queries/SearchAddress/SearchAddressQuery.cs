@@ -37,7 +37,7 @@ namespace City.Application.NeighborhoodEntities.Queries.SearchAddress
                                  join h in context.Buildings.OfType<House>() on b.Id equals h.Id into hGroup
                                  from mh in hGroup.DefaultIfEmpty()
                                  where ne.Name.Contains(request.Name!)
-                                 group new { ne, mbf, mh } by new { NeighborhoodEntityType = EF.Property<NeighborhoodEntityType>(ne, "Type"), ne.PostalCode, ne.Id, ne.Name } into gr
+                                 group new { ne, mbf, mh } by new { NeighborhoodEntityType = ne.Type, ne.PostalCode, ne.Id, ne.Name } into gr
                                  select new BlockOfFlatsAddressDto
                                  {
                                      Id = gr.Key.Id,

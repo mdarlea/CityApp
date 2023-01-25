@@ -135,10 +135,40 @@ namespace City.Infrastructure
 
 				neighborhood.AddMarket(market);
 
-				context.Neighborhoods.Add(neighborhood);
+                var boulevard = new Boulevard("Constantin Diaconovici Loga", "12346");
+
+                blockOfFlats = new BlockOfFlats("50");
+                blockOfFlats.AddStair(6, "A");
+                blockOfFlats.AddStair(4, "B");
+                blockOfFlats.AddStair(1, "C");
+                blockOfFlats.AddStair(2, "D");
+                blockOfFlats.AddStair(3, "E");
+                boulevard.AddNewBlockOfFlats(blockOfFlats);
+
+                blockOfFlats = new BlockOfFlats("100");
+                blockOfFlats.AddStair(20, "A");
+                blockOfFlats.AddStair(3, "B");
+                boulevard.AddNewBlockOfFlats(blockOfFlats);
+
+                neighborhood.AddBoulevard(boulevard);
+
+                context.Neighborhoods.Add(neighborhood);
 
 				neighborhood = new Neighborhood("Calea Sagului");
-				context.Neighborhoods.Add(neighborhood);
+
+                var street = new Street("Aleea Actorilor", "12346");
+                blockOfFlats = new BlockOfFlats("15");
+                blockOfFlats.AddStair(6, "A");
+                blockOfFlats.AddStair(4, "B");
+                blockOfFlats.AddStair(1, "C");
+                street.AddNewBlockOfFlats(blockOfFlats);
+                
+                house = new House(1, "Farmacia Farmado");
+                street.AddNewHouse(house);
+
+                neighborhood.AddStreet(street);
+
+                context.Neighborhoods.Add(neighborhood);
 
 				neighborhood = new Neighborhood("Iosefin");
 				context.Neighborhoods.Add(neighborhood);

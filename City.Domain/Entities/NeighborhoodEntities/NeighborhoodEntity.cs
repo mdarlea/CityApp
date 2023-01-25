@@ -18,7 +18,7 @@ namespace City.Domain.Entities.NeighborhoodEntities
 
         public string Name { get; private set; }
         public string PostalCode { get; private set; }
-        public NeighborhoodEntityType NeighborhoodEntityType { get; private set; }
+        public NeighborhoodEntityType Type { get; private set; }
         public Neighborhood? Neighborhood { get; set; }
 
 		private readonly List<Building> buildings = new List<Building>();
