@@ -36,7 +36,7 @@ Order By Neighborhood, [Type], PostalCode, [Name]
 /* 
 Tema 4 Section 3
 */
-Select n.Id, n.[Name] as Neighborhood, ne.[Type], Count(ne.Id) as NumberOfAddressType
+Select n.[Name] as Neighborhood, ne.[Type], Count(ne.Id) as NumberOfAddressType
 From Neighborhoods as n
 	inner join NeighborhoodEntities as ne on n.Id = ne.NeighborhoodId
-Group By n.Id, n.[Name], ne.[Type]
+Group By n.[Name], ne.[Type]

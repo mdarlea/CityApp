@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using City.Application.Common.Mappings;
 using City.Domain.Entities.NeighborhoodEntities;
-using Microsoft.EntityFrameworkCore;
 
 namespace City.Application.NeighborhoodEntities.Queries.ListAddresses
 {
