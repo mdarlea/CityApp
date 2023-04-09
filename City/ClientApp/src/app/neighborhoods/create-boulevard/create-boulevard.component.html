@@ -1,0 +1,8 @@
+<form [formGroup]="createBoulevardForm" (ngSubmit)="onSubmit()" novalidate>
+  <app-neighborhoods formControlName="selectedNeighborhood" [neighborhoods]="neighborhoods | async"
+    [validationConfigs]="[{errorCode: 'required', message: 'Neighborhood is required'}]">
+  </app-neighborhoods>
+
+  {{ createBoulevardForm.value | json}}
+</form>
+

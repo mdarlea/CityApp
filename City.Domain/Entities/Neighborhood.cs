@@ -15,16 +15,19 @@ namespace City.Domain.Entities
 		private readonly List<NeighborhoodEntity> neighborhoodEntities= new List<NeighborhoodEntity>();
 		public IReadOnlyCollection<NeighborhoodEntity> NeighborhoodEntities => neighborhoodEntities.AsReadOnly();
 
-		public void AddBoulevard(Boulevard boulevard) 
+        private readonly List<Boulevard> boulevards = new List<Boulevard>();
+        public IReadOnlyCollection<Boulevard> Boulevards => boulevards.AsReadOnly();
+
+        public void AddBoulevard(Boulevard boulevard) 
 		{
 			if (boulevard is null)
 			{
 				throw new ArgumentNullException(nameof(boulevard));
 			}
 
-			if (boulevard.IsTransient() || !neighborhoodEntities.Any(e => e.Id == boulevard.Id)) 
+			if (boulevard.IsTransient() || !boulevards.Any(e => e.Id == boulevard.Id)) 
 			{
-				neighborhoodEntities.Add(boulevard);
+				boulevards.Add(boulevard);
 			}
 		}
 

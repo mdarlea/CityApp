@@ -28,14 +28,18 @@ namespace City.Infrastructure
 
 		public DbSet<Neighborhood> Neighborhoods { get; set; }
 		public DbSet<NeighborhoodEntity> NeighborhoodEntities { get; set; }
+        public DbSet<Boulevard> Boulevards{ get; set; }
+        public DbSet<Market> Markets{ get; set; }
+        public DbSet<Street> Streets{ get; set; }
+
 		public DbSet<Building> Buildings { get; set; }
 		public DbSet<BlockOfFlatsStair> BlockOfFlatsStairs { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder) 
 		{
-			modelBuilder.Entity<Boulevard>();
-			modelBuilder.Entity<Market>();
-			modelBuilder.Entity<Street>();
+			//modelBuilder.Entity<Boulevard>();
+			//modelBuilder.Entity<Market>();
+			//modelBuilder.Entity<Street>();
 
 			modelBuilder.Entity<BlockOfFlats>();
 			modelBuilder.Entity<House>();

@@ -4,7 +4,7 @@ namespace City.Domain.Entities.Buildings
 {
 	public class BlockOfFlatsStair: BaseAuditableEntity
 	{
-		public BlockOfFlatsStair(int numberOfApartments, string stair) 
+		internal BlockOfFlatsStair(int numberOfApartments, string stair) 
 		{			
 			NumberOfApartments = numberOfApartments;
 			Stair = stair;

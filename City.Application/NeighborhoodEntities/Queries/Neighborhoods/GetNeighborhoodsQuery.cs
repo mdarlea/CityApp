@@ -5,13 +5,13 @@ using MediatR;
 
 namespace City.Application.NeighborhoodEntities.Queries.Neighborhoods
 {
-    public record GetNeighborhoodsQuery: IRequest<PaginatedList<NeighborhoodDto>>
+    public record GetNeighborhoodsQuery: IRequest<PaginatedList<NeighborhoodSearchDto>>
     {
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
     }
 
-    public class GetNeighborhoodsQueryHandler : IRequestHandler<GetNeighborhoodsQuery, PaginatedList<NeighborhoodDto>>
+    public class GetNeighborhoodsQueryHandler : IRequestHandler<GetNeighborhoodsQuery, PaginatedList<NeighborhoodSearchDto>>
     {
         private readonly ICityContext context;
 
@@ -20,12 +20,12 @@ namespace City.Application.NeighborhoodEntities.Queries.Neighborhoods
             this.context = context;
         }
 
-        public async Task<PaginatedList<NeighborhoodDto>> Handle(GetNeighborhoodsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedList<NeighborhoodSearchDto>> Handle(GetNeighborhoodsQuery request, CancellationToken cancellationToken)
         {
             var results = await (from n in context.Neighborhoods
                           join ne in context.NeighborhoodEntities on n.Id equals ne.Neighborhood!.Id
                           group new { n, ne } by new { n.Name, NeighborhoodEntityType = ne.Type } into gr
-                          select new NeighborhoodDto
+                          select new NeighborhoodSearchDto
                           {
                               Neighborhood = gr.Key.Name,
                               Type = gr.Key.NeighborhoodEntityType.ToString(),

@@ -9,7 +9,7 @@ namespace City.Controllers
     public class GetNeighborhoodsController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<NeighborhoodDto>>> GetNeighborhoods([FromQuery] GetNeighborhoodsQuery query)
+        public async Task<ActionResult<PaginatedList<NeighborhoodSearchDto>>> GetNeighborhoods([FromQuery] GetNeighborhoodsQuery query)
         {
             return await Mediator.Send(query);
         }
